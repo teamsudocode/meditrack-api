@@ -6,7 +6,7 @@ const express = require('express'),
 
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/meditrack');
+mongoose.connect(process.env.DB_URL || 'mongodb://localhost/meditrack');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
