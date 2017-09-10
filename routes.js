@@ -31,7 +31,8 @@ module.exports = function(app) {
         .post(controller.medicineControls.create);
 
     app.route('/api/medicine/:objectId')
-        .get(controller.medicineControls.read);
+        .get(controller.medicineControls.read)
+        .patch(controller.medicineControls.update);
 
     app.route('/api/medicines/search')
         .get(controller.medicineControls.search);
