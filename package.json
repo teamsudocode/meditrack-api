@@ -1,0 +1,25 @@
+{
+  "name": "meditrack",
+  "version": "1.0.0",
+  "description": "Tracking medicines the easy way",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/himanshub16/meditrack.git"
+  },
+  "author": "sudocode",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "bugs": {
+    "url": "https://github.com/himanshub16/meditrack/issues"
+  },
+  "homepage": "https://github.com/himanshub16/meditrack#readme",
+  "dependencies": {
+    "body-parser": "^1.18.0",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.10",
+    "mongoose-id-validator": "^0.4.2"
+  }
+}
