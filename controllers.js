@@ -1,12 +1,9 @@
 'use strict';
 
 
-require('./models/User');
-require('./models/Bill');
-require('./models/Medicine');
-require('./models/Order');
-
 const mongoose = require('mongoose'),
+      models = require('./models'),
+      
       User = mongoose.model('Users'),
       Medicine = mongoose.model('Medicines'),
       Order = mongoose.model('Orders'),
