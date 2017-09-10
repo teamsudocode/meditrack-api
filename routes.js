@@ -4,6 +4,9 @@ const controller = require('./controllers');
 
 module.exports = function(app) {
 
+    app.route('/')
+        .get((req, res) => { res.send('Meditrack : Tracking medications the easy way'); });
+
     // /user(s)
     app.route('/api/users')
         .post(controller.userControls.create);
