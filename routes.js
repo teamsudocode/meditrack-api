@@ -5,53 +5,53 @@ const controller = require('./controllers');
 module.exports = function(app) {
 
     // /user(s)
-    app.route('/users')
+    app.route('/api/users')
         .post(controller.userControls.create);
 
-    app.route('/user/:objectId')
+    app.route('/api/user/:objectId')
         .get(controller.userControls.read)
         .patch(controller.userControls.update)
         .delete(controller.userControls.delete);
 
-    app.route('/username/:username')
+    app.route('/api/username/:username')
         .get(controller.userControls.readByName);
 
-    app.route('/user/:objectId/bills')
+    app.route('/api/user/:objectId/bills')
         .get(controller.userControls.bills);
 
-    app.route('/user/:objectId/orders')
+    app.route('/api/user/:objectId/orders')
         .get(controller.userControls.orders);
 
 
     // /medicine(s)
-    app.route('/medicines')
+    app.route('/api/medicines')
         .post(controller.medicineControls.create);
 
-    app.route('/medicine/:objectId')
+    app.route('/api/medicine/:objectId')
         .get(controller.medicineControls.read);
 
-    app.route('/medicines/search')
+    app.route('/api/medicines/search')
         .get(controller.medicineControls.search);
 
 
     // /order(s)
-    app.route('/orders')
+    app.route('/api/orders')
         .post(controller.orderControls.create);
 
-    app.route('/order/:objectId')
+    app.route('/api/order/:objectId')
         .get(controller.orderControls.read)
         .patch(controller.orderControls.update);
 
 
     // /bill(s)
-    app.route('/bills')
+    app.route('/api/bills')
         .post(controller.billControls.create);
 
-    app.route('/bill/:objectId')
+    app.route('/api/bill/:objectId')
         .get(controller.billControls.read)
         .patch(controller.billControls.update);
 
-    app.route('/bill/:objectId/orders')
+    app.route('/api/bill/:objectId/orders')
         .get(controller.billControls.orders);
 
 };
