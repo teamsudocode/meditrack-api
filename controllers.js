@@ -76,8 +76,8 @@ const medicine__search = function(req, res) {
 
     if (q === undefined) {
         res.status(401).json({message: 'Query string missing'});
-    } else if (q.length < 3) {
-        res.status(401).json({message: 'At least 3 characters required'});
+    // } else if (q.length < 3) {
+    //     res.status(401).json({message: 'At least 3 characters required'});
     } else {
         Medicine.find(
             {name: {$regex: q, $options: 'i'}},
