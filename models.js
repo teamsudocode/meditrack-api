@@ -42,6 +42,7 @@ const OrderSchema = new Schema({
     bill: { type: Schema.Types.ObjectId, ref: 'Bills', required: true },
     dosage: { type: Number, min: 1, required: true },
     quantity: { type: Number, required: true },
+    available: { type: Number, required: true },
     createdAt: { type: Date, default: Date.now }
 });
 
