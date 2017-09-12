@@ -150,6 +150,26 @@ const user__read_by_name = function(req, res) {
 };
 
 
+const user__orders_tod = function(req, res) {
+    const tod_map = {
+        morning: [1, 2, 3, 4],
+        noon: [2, 3, 4],
+        evening: [4],
+        night: [2, 3, 4]
+    };
+
+    Order.find(
+        {dosage: {$in: tod_map[req.params.timeOfDay]}},
+        function(err, result) {
+            if (err)
+                res.statu(500).json(err);
+            else
+                res.status(200).json(result);
+        }
+    );
+};
+
+
 const bill__orders = function(req, res) {
     Order.find({bill: req.params.objectId}, function(err, result) {
         if (err)
@@ -176,6 +196,7 @@ const userControls = {
 
     bills : user__bills,
     orders: user__orders,
+    orders_tod: user__orders_tod,
     readByName: user__read_by_name
 };
 

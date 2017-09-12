@@ -25,6 +25,9 @@ module.exports = function(app) {
     app.route('/api/user/:objectId/orders')
         .get(controller.userControls.orders);
 
+    app.route('/api/user/:objectId/orders/:timeOfDay')
+        .get(controller.userControls.orders_tod);
+
 
     // /medicine(s)
     app.route('/api/medicines')
