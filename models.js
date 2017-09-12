@@ -53,6 +53,26 @@ const orderModel = mongoose.model('Orders', OrderSchema);
 
 /* ------------------------------------------------------------------------- */
 
+const DosageLogSchema = new Schema({
+    order: { type: Schema.Types.ObjectId, ref: 'Orders', required: true },
+    date: { type: Date, required: true },
+    taken: { type: Boolean, default: true }
+});
+
+DosageLogSchema.plugin(idValidator);
+
+DosageLogSchema.post('save', function(doc) {
+    let inc_value = 0;
+    if (doc.taken) inc_value = -1;
+    else inc_value = 1;
+
+    orderModel.findByIdAndUpdate(doc.order, {$inc: {available: inc_value}}).exec();
+});
+
+const dosageLogModel = mongoose.model('DosageLogs', DosageLogSchema);
+
+/* ------------------------------------------------------------------------- */
+
 const UserSchema = new Schema({
     username : { type: String, unique: true, trim: true, required: true },
     firstName: { type: String, trim: true },

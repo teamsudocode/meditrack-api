@@ -7,6 +7,8 @@ module.exports = function(app) {
     app.route('/')
         .get((req, res) => { res.send('Meditrack : Tracking medications the easy way'); });
 
+    /* -------------------------------------------------------------*/
+
     // /user(s)
     app.route('/api/users')
         .post(controller.userControls.create);
@@ -28,6 +30,7 @@ module.exports = function(app) {
     app.route('/api/user/:objectId/orders/:timeOfDay')
         .get(controller.userControls.orders_tod);
 
+    /* -------------------------------------------------------------*/
 
     // /medicine(s)
     app.route('/api/medicines')
@@ -40,6 +43,7 @@ module.exports = function(app) {
     app.route('/api/medicines/search')
         .get(controller.medicineControls.search);
 
+    /* -------------------------------------------------------------*/
 
     // /order(s)
     app.route('/api/orders')
@@ -49,6 +53,7 @@ module.exports = function(app) {
         .get(controller.orderControls.read)
         .patch(controller.orderControls.update);
 
+    /* -------------------------------------------------------------*/
 
     // /bill(s)
     app.route('/api/bills')
@@ -60,5 +65,14 @@ module.exports = function(app) {
 
     app.route('/api/bill/:objectId/orders')
         .get(controller.billControls.orders);
+
+    /* -------------------------------------------------------------*/
+
+    app.route('/api/dosagelogs')
+        .post(controller.logControls.create);
+
+    app.route('/api/dosagelog/:objectId')
+        .get(controller.logControls.read)
+        .patch(controller.logControls.update);
 
 };
