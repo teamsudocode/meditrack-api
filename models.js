@@ -48,7 +48,7 @@ const OrderSchema = new Schema({
 
 OrderSchema.plugin(idValidator);
 
-const orderModel = mongoose.model('Orders', OrderSchema);	
+const orderModel = mongoose.model('Orders', OrderSchema);
 
 
 /* ------------------------------------------------------------------------- */

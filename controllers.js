@@ -109,27 +109,50 @@ const user__bills = function(req, res) {
 
 
 const user__orders = function(req, res) {
-    Bill.find({$or: [ {patient: req.params.objectId}, {chemist: req.params.objectId} ]}, function(err, bills) {
-        if (err)
-            res.status(500).json(err);
-        else {
-            let orders = new Array();
+    Bill.find(
+        {$or: [ {patient: req.params.objectId}, {chemist: req.params.objectId} ], available: {$gt: 0}},
+        function(err, bills) {
+            if (err)
+                res.status(500).json(err);
+            else {
+                let orders = new Array();
 
-            let billIds = [];
-            for (let i = 0; i < bills.length; i++) {
-                billIds.push(bills[i]._id);
+                let billIds = [];
+                for (let i = 0; i < bills.length; i++) {
+                    billIds.push(bills[i]._id);
+                }
+
+                Order
+                    .find({bill: {$in: billIds}})
+                    .populate('medicine')
+                    .exec()
+                    .then((result) => {
+                        res.json(result);
+                    });
+
             }
-
-            Order
-                .find({bill: {$in: billIds}})
-                .populate('medicine')
-                .exec()
-                .then((result) => {
-                    res.json(result);
-                });
-
         }
-    });
+    );
+};
+
+
+const user__orders_tod = function(req, res) {
+    const tod_map = {
+        morning: [1, 2, 3, 4],
+        noon: [2, 3, 4],
+        evening: [4],
+        night: [2, 3, 4]
+    };
+
+    Order.find(
+        {dosage: {$in: tod_map[req.params.timeOfDay]}, available: {$gt: 0}},
+        function(err, result) {
+            if (err)
+                res.statu(500).json(err);
+            else
+                res.status(200).json(result);
+        }
+    );
 };
 
 
@@ -147,26 +170,6 @@ const user__read_by_name = function(req, res) {
                 res.status(200).json(result);
         });
     }
-};
-
-
-const user__orders_tod = function(req, res) {
-    const tod_map = {
-        morning: [1, 2, 3, 4],
-        noon: [2, 3, 4],
-        evening: [4],
-        night: [2, 3, 4]
-    };
-
-    Order.find(
-        {dosage: {$in: tod_map[req.params.timeOfDay]}},
-        function(err, result) {
-            if (err)
-                res.statu(500).json(err);
-            else
-                res.status(200).json(result);
-        }
-    );
 };
 
 
