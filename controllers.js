@@ -145,7 +145,11 @@ const user__orders_tod = function(req, res) {
     };
 
     Order.find(
-        {dosage: {$in: tod_map[req.params.timeOfDay]}, available: {$gt: 0}},
+        {
+            $or: [{patient: req.params.objectId}, {chemist: req.params.objectId}],
+            dosage: {$in: tod_map[req.params.timeOfDay]},
+            available: {$gt: 0}
+        },
         function(err, result) {
             if (err)
                 res.statu(500).json(err);

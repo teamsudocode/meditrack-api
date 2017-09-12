@@ -38,7 +38,8 @@ module.exports = function(app) {
 
     app.route('/api/medicine/:objectId')
         .get(controller.medicineControls.read)
-        .patch(controller.medicineControls.update);
+        .patch(controller.medicineControls.update)
+        .delete(controller.medicineControls.delete);
 
     app.route('/api/medicines/search')
         .get(controller.medicineControls.search);
@@ -51,7 +52,8 @@ module.exports = function(app) {
 
     app.route('/api/order/:objectId')
         .get(controller.orderControls.read)
-        .patch(controller.orderControls.update);
+        .patch(controller.orderControls.update)
+        .delete(controller.orderControls.delete);
 
     /* -------------------------------------------------------------*/
 
@@ -61,7 +63,8 @@ module.exports = function(app) {
 
     app.route('/api/bill/:objectId')
         .get(controller.billControls.read)
-        .patch(controller.billControls.update);
+        .patch(controller.billControls.update)
+        .delete(controller.billControls.delete);
 
     app.route('/api/bill/:objectId/orders')
         .get(controller.billControls.orders);
@@ -73,6 +76,7 @@ module.exports = function(app) {
 
     app.route('/api/dosagelog/:objectId')
         .get(controller.logControls.read)
-        .patch(controller.logControls.update);
+        .patch(controller.logControls.update)
+        .delete(controller.logControls.delete);
 
 };
