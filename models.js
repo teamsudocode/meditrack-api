@@ -37,14 +37,21 @@ const medicineModel = mongoose.model('Medicines', MedicineSchema);
 
 /* ------------------------------------------------------------------------- */
 
-const OrderSchema = new Schema({
-    medicine: { type: Schema.Types.ObjectId, ref: 'Medicines', required: true },
-    bill: { type: Schema.Types.ObjectId, ref: 'Bills', required: true },
-    dosage: { type: Number, min: 1, required: true },
-    quantity: { type: Number, required: true },
-    available: { type: Number, required: true },
-    createdAt: { type: Date, default: Date.now }
-});
+const OrderSchema = new Schema(
+    {
+        medicine: { type: Schema.Types.ObjectId, ref: 'Medicines', required: true },
+        bill: { type: Schema.Types.ObjectId, ref: 'Bills', required: true },
+        dosage: { type: Number, min: 1, required: true },
+        quantity: { type: Number, required: true },
+        available: { type: Number, required: true }
+    },
+    {
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: 'updatedAt'
+        }
+    }
+);
 
 OrderSchema.plugin(idValidator);
 
@@ -62,9 +69,7 @@ const DosageLogSchema = new Schema({
 DosageLogSchema.plugin(idValidator);
 
 DosageLogSchema.post('save', function(doc) {
-    let inc_value = 0;
-    if (doc.taken) inc_value = -1;
-    else inc_value = 1;
+    let inc_value = (doc.taken) ? -1 : 1;
 
     orderModel.findByIdAndUpdate(doc.order, {$inc: {available: inc_value}}).exec();
 });

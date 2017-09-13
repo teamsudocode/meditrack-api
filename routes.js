@@ -7,7 +7,7 @@ module.exports = function(app) {
     app.route('/')
         .get((req, res) => { res.send('Meditrack : Tracking medications the easy way'); });
 
-    /* -------------------------------------------------------------*/
+    /* ------------------------------------------------------------- */
 
     // /user(s)
     app.route('/api/users')
@@ -30,7 +30,7 @@ module.exports = function(app) {
     app.route('/api/user/:objectId/orders/:timeOfDay')
         .get(controller.userControls.orders_tod);
 
-    /* -------------------------------------------------------------*/
+    /* ------------------------------------------------------------- */
 
     // /medicine(s)
     app.route('/api/medicines')
@@ -44,7 +44,7 @@ module.exports = function(app) {
     app.route('/api/medicines/search')
         .get(controller.medicineControls.search);
 
-    /* -------------------------------------------------------------*/
+    /* ------------------------------------------------------------- */
 
     // /order(s)
     app.route('/api/orders')
@@ -55,7 +55,7 @@ module.exports = function(app) {
         .patch(controller.orderControls.update)
         .delete(controller.orderControls.delete);
 
-    /* -------------------------------------------------------------*/
+    /* ------------------------------------------------------------- */
 
     // /bill(s)
     app.route('/api/bills')
@@ -69,7 +69,7 @@ module.exports = function(app) {
     app.route('/api/bill/:objectId/orders')
         .get(controller.billControls.orders);
 
-    /* -------------------------------------------------------------*/
+    /* ------------------------------------------------------------- */
 
     app.route('/api/dosagelogs')
         .post(controller.logControls.create);
@@ -78,5 +78,7 @@ module.exports = function(app) {
         .get(controller.logControls.read)
         .patch(controller.logControls.update)
         .delete(controller.logControls.delete);
+
+    /* ------------------------------------------------------------- */
 
 };
