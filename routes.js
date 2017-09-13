@@ -55,6 +55,9 @@ module.exports = function(app) {
         .patch(controller.orderControls.update)
         .delete(controller.orderControls.delete);
 
+    app.route('/api/order/:objectId/:change')
+        .patch(controller.orderControls.updateConsumed);
+
     /* ------------------------------------------------------------- */
 
     // /bill(s)
@@ -68,16 +71,6 @@ module.exports = function(app) {
 
     app.route('/api/bill/:objectId/orders')
         .get(controller.billControls.orders);
-
-    /* ------------------------------------------------------------- */
-
-    app.route('/api/dosagelogs')
-        .post(controller.logControls.create);
-
-    app.route('/api/dosagelog/:objectId')
-        .get(controller.logControls.read)
-        .patch(controller.logControls.update)
-        .delete(controller.logControls.delete);
 
     /* ------------------------------------------------------------- */
 

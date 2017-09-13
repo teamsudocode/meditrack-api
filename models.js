@@ -42,8 +42,9 @@ const OrderSchema = new Schema(
         medicine: { type: Schema.Types.ObjectId, ref: 'Medicines', required: true },
         bill: { type: Schema.Types.ObjectId, ref: 'Bills', required: true },
         dosage: { type: Number, min: 1, required: true },
-        quantity: { type: Number, required: true },
-        available: { type: Number, required: true }
+        quantity: { type: Number, required: true, min: 1 },
+        available: { type: Number, required: true, min: 1 },
+        lastConsumed: { type: Date }
     },
     {
         timestamps: {
@@ -56,25 +57,6 @@ const OrderSchema = new Schema(
 OrderSchema.plugin(idValidator);
 
 const orderModel = mongoose.model('Orders', OrderSchema);
-
-
-/* ------------------------------------------------------------------------- */
-
-const DosageLogSchema = new Schema({
-    order: { type: Schema.Types.ObjectId, ref: 'Orders', required: true },
-    date: { type: Date, required: true },
-    taken: { type: Boolean, default: true }
-});
-
-DosageLogSchema.plugin(idValidator);
-
-DosageLogSchema.post('save', function(doc) {
-    let inc_value = (doc.taken) ? -1 : 1;
-
-    orderModel.findByIdAndUpdate(doc.order, {$inc: {available: inc_value}}).exec();
-});
-
-const dosageLogModel = mongoose.model('DosageLogs', DosageLogSchema);
 
 /* ------------------------------------------------------------------------- */
 

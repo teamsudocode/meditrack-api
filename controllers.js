@@ -7,8 +7,7 @@ const mongoose = require('mongoose'),
       User = mongoose.model('Users'),
       Medicine = mongoose.model('Medicines'),
       Order = mongoose.model('Orders'),
-      Bill = mongoose.model('Bills'),
-      DosageLog = mongoose.model('DosageLogs');
+      Bill = mongoose.model('Bills');
 
 
 // defining genericCRUD for basic operations
@@ -203,28 +202,23 @@ const bill__orders = function(req, res) {
 };
 
 
-const log__create = function(req, res) {
-    let _ts = new Date(req.body.date);
-    console.log(_ts);
-    let start_date = new Date(Date.UTC(_ts.getFullYear(), _ts.getMonth(), _ts.getDate()));
-    let end_date   = new Date(Date.UTC(_ts.getFullYear(), _ts.getMonth(), _ts.getDate()+1));
+const order__last_consumed = function(req, res) {
+    let inc_value = (req.params.change == 'decrease') ? -1 : 1;
 
-    DosageLog.find(
-        {order: req.body.order, date: {$gte: start_date, $lte: end_date}},
+    Order.findByIdAndUpdate(
+        req.params.objectId,
+        {
+            lastConsumed: (new Date()).toUTCString(),
+            $inc: {available: inc_value}
+        },
         function(err, result) {
             if (err)
-                res.status(500).send(err);
-            else {
-                if (result.length > 0) {
-                    res.status(401).json({message: 'Entry already available for this date', log: result});
-                } else {
-                    genericCRUD.create(DosageLog)(req, res);
-                }
-            }
+                res.status(500).json(err);
+            else
+                res.status(200).json(result);
         }
     );
 };
-
 
 const do_not_delete = function(req, res) {
     res.status(405).json({message: 'This method is not allowed on this resource'});
@@ -250,7 +244,9 @@ const orderControls = {
     create: genericCRUD.create(Order),
     read  : genericCRUD.read  (Order),
     update: genericCRUD.update(Order),
-    delete: genericCRUD.delete(Order)
+    delete: genericCRUD.delete(Order),
+
+    updateConsumed: order__last_consumed
 };
 
 
@@ -274,19 +270,9 @@ const medicineControls = {
 };
 
 
-const logControls = {
-    // create: genericCRUD.create(DosageLog),
-    create: log__create,
-    read:   genericCRUD.read(DosageLog),
-    update: genericCRUD.update(DosageLog),
-    delete: genericCRUD.delete(DosageLog)
-};
-
-
 module.exports = {
     userControls,
     orderControls,
     medicineControls,
-    billControls,
-    logControls
+    billControls
 };
