@@ -111,7 +111,7 @@ const user__bills = function(req, res) {
 
 const user__orders = function(req, res) {
     Bill.find(
-        {$or: [ {patient: req.params.objectId}, {chemist: req.params.objectId} ], available: {$gt: 0}},
+        {$or: [ {patient: req.params.objectId}, {chemist: req.params.objectId} ]},
         function(err, bills) {
             if (err)
                 res.status(500).json(err);
@@ -124,7 +124,7 @@ const user__orders = function(req, res) {
                 }
 
                 Order
-                    .find({bill: {$in: billIds}})
+                    .find({bill: {$in: billIds}, available: {$gt: 0}})
                     .populate('medicine')
                     .exec()
                     .then((result) => {
@@ -144,17 +144,33 @@ const user__orders_tod = function(req, res) {
         night: [2, 3, 4]
     };
 
-    Order.find(
-        {
-            $or: [{patient: req.params.objectId}, {chemist: req.params.objectId}],
-            dosage: {$in: tod_map[req.params.timeOfDay]},
-            available: {$gt: 0}
-        },
-        function(err, result) {
+    Bill.find(
+        {$or: [ {patient: req.params.objectId}, {chemist: req.params.objectId} ]},
+        function(err, bills) {
             if (err)
-                res.statu(500).json(err);
-            else
-                res.status(200).json(result);
+                res.status(500).json(err);
+            else {
+                let orders = new Array();
+
+                let billIds = [];
+                for (let i = 0; i < bills.length; i++) {
+                    billIds.push(bills[i]._id);
+                }
+
+                Order
+                    .find(
+                        {
+                            bill: {$in: billIds},
+                            dosage: {$in: tod_map[req.params.timeOfDay]},
+                            available: {$gt: 0}
+                        }
+                    )
+                    .populate('medicine')
+                    .exec()
+                    .then((result) => {
+                        res.json(result);
+                    });
+            }
         }
     );
 };
