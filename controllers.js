@@ -216,7 +216,7 @@ const log__create = function(req, res) {
                 res.status(500).send(err);
             else {
                 if (result.length > 0) {
-                    res.status(401).json({message: 'Entry already available for this date'});
+                    res.status(401).json({message: 'Entry already available for this date', log: result});
                 } else {
                     genericCRUD.create(DosageLog)(req, res);
                 }
