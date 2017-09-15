@@ -24,7 +24,7 @@ const billModel = mongoose.model('Bills', BillSchema);
 
 const MedicineSchema = new Schema({
     name: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    rate: { type: Number, required: true },
+    rate: { type: Number },
     type: {
         type: String,
         enum: ['tablet', 'capsule', 'syrup', 'injection'],
