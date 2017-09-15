@@ -40,7 +40,7 @@ const medicineModel = mongoose.model('Medicines', MedicineSchema);
 const OrderSchema = new Schema(
     {
         medicine: { type: Schema.Types.ObjectId, ref: 'Medicines', required: true },
-        bill: { type: Schema.Types.ObjectId, ref: 'Bills', required: true },
+        bill: { type: Schema.Types.ObjectId, ref: 'Bills', required: false },
         dosage: { type: Number, min: 1, required: true },
         quantity: { type: Number, required: true, min: 1 },
         available: { type: Number, required: true, min: 1 },
